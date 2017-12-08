@@ -1,22 +1,16 @@
-pipeline {
-  agent {
-    docker {
-      image 'ubuntu:xenial'
-    }
-  }
+node {
+  stage 'Prepare environment'
+    checkout scm
+    def environment = docker.build 'ci-node'
 
-  stages {
-    stage('Setup') {
-      steps {
-        sh 'sudo apt-get install cmake'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh 'mkdir build && cd build'
+    environment.inside {
+      stage 'Build'
+        sh 'mkdir build'
+        sh 'cd build'
         sh 'cmake ..'
         sh 'make'
-      }
     }
-  }
+
+  stage 'Cleanup'
+    deleteDir()
 }
