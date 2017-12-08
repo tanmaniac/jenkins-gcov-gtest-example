@@ -9,5 +9,5 @@ add_subdirectory(src)
 file(GLOB TEST_FILES ${PROJECT_SOURCE_DIR}/test/*.cpp)
 
 target_link_libraries(travis_gcov_example_lib)
-add_subdirectory(googletest-release-1.8.0)
+add_subdirectory(external)
 add_subdirectory(test)
