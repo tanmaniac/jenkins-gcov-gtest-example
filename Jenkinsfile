@@ -1,19 +1,17 @@
-node {
-  stage("Prepare Environment")
-    checkout scm
-    def environment = docker.build("ci-node:${env.BUILD_ID}")
+pipeline {
+  agent { dockerfile true }
 
-    environment.inside {
-      stage("Cleanup Old Builds")
+  stages {
+    stage("Clean Old Build") {
+      steps {
         sh "rm -rf build"
-
-      stage("Set Up Build")
-        sh "mkdir build && cd build"
-
-      stage("Build")
-        sh "cmake .. && make"
+      }
     }
-
-  stage("Cleanup")
-    deleteDir()
+    stage("Build") {
+      steps {
+        sh "mkdir build && cd build"
+        sh "cmake .. && make"
+      }
+    }
+  }
 }
