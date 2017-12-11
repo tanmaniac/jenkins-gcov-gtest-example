@@ -9,7 +9,8 @@ pipeline {
     }
     stage("Build") {
       steps {
-        sh "mkdir build && cd build"
+        sh "mkdir build"
+        sh "cd build"
         sh "pwd"
         sh "ls"
         sh "cmake .. && make"
